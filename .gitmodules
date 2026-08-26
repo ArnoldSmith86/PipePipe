@@ -4,7 +4,7 @@
 	branch = main
 [submodule "NewPipeEnhanced-client"]
 	path = PipePipeClient
-	url = https://codeberg.org/NullPointerException/PipePipeClient.git
+	url = https://github.com/ArnoldSmith86/PipePipeClient.git
 	branch = dev
 [submodule "PipePipe.wiki"]
     path = PipePipe.wiki
