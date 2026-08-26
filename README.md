@@ -1,96 +1,170 @@
 <hr>
-<p align="center"><img src="assets/logo.png" width="150"></p> 
-<h2 align="center"><b>PipePipe</b></h2>
-<h4 align="center">
-NewPipe, reimagined: faster, more stable, and packed with more features.</h4>
-<p align="center"><a href="https://f-droid.org/packages/InfinityLoop1309.NewPipeEnhanced/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid"  width="207" /></a>
-<a href="https://apt.izzysoft.de/fdroid/index/apk/InfinityLoop1309.NewPipeEnhanced"><img src="assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid" width="207" /></a></p>
+<p align="center"><img src="assets/logo.png" width="150"></p>
+<h2 align="center"><b>PipePipe — vibecoded fork</b></h2>
+<h4 align="center">A soft fork of PipePipe. Every feature below was written by an AI coding agent on request, then tested on a real phone.</h4>
 <hr>
 
-## Beyond NewPipe
+## What this is
 
-#### YouTube Enhancements
-* Integrate SponsorBlock for skipping sponsored segments (YouTube & BiliBili) 
-* Restore YouTube dislikes with ReturnYouTubeDislike 
-* Show original titles on YouTube (non-localized) 
-* Log in to access restricted or premium content 
+This is a fork of [PipePipe](https://github.com/InfinityLoop1308/PipePipe) by
+[@InfinityLoop1308](https://github.com/InfinityLoop1308), which is itself a fork of NewPipe. The
+upstream project is not interested in merging these changes, so they are kept here instead.
 
-#### Media Features
-* Display live chats in danmaku-style overlays
-* Support AV1 and VP9 codecs for efficient, high-quality playback 
-* Enable music player mode with background playback 
+**Vibecoded** is meant literally: each feature started as a sentence or two of description, was
+implemented by [Claude Code](https://claude.com/claude-code) working in this repository, and was
+then exercised on a physical device — a rooted OnePlus 5T on LineageOS 19.1 — before it counted as
+done. Screenshots on this page are from that phone. Bugs in this fork are the fork's own; please
+don't take them to upstream.
 
-#### Filtering
-* Apply advanced search filters for better discovery 
-* Filter out unwanted items by keywords or channels 
-* Block shorts and paid videos for a cleaner feed 
+The app code lives in [ArnoldSmith86/PipePipeClient](https://github.com/ArnoldSmith86/PipePipeClient).
+Its **`dev`** branch carries everything described here, on top of upstream's `dev`.
 
-#### Playback Controls
-* Use swipe-to-seek and fullscreen gestures for intuitive navigation 
-* Long-press to speed up playback 
-* Set a sleep timer for bedtime listening 
+## What the fork adds
 
-#### Enhanced Playlists
-* Download full playlists at once 
-* Search and sort within local playlists and histories
+### Cache videos for offline viewing
 
-... and many more improvements!
+A video can be kept on the device and watched with no connection at all, and thrown away again when
+it has been watched. It is a companion to the existing Download feature rather than a replacement:
+downloads are permanent files you export to your own storage, a cached video is app-private, listed
+on its own screen, and meant to be temporary. Caching runs the same download engine as Download, so
+anything the app can download it can cache — SABR, HLS and DASH streams included — with a quality
+selector, or straight at the default quality if you turn that on in *Settings → Download →
+Caching*. The player, the video page, the feed and every list know about it: a cached video plays
+from disk instead of being re-fetched, list items carry an "available offline" badge, the feed can
+be filtered down to cached videos only, and a video that has been watched to the end offers an
+Uncache button in the player.
 
+Importing a backup notices the difference between what the database claims and what is on the disk:
+a backup carries the database but never the media, so it asks whether the videos it lists should be
+cached again or have their marks cleared, then reconciles the table against the cache directory —
+dropping rows with no files, repairing rows whose files moved (a backup from another device), and
+deleting folders no row points at.
 
-## Screenshots
+<p>
+<img src="assets/fork/cache-quality-dialog.png" width=210>
+<img src="assets/fork/cache-videos-list.png" width=210>
+<img src="assets/fork/cached-only-filter.png" width=210>
+<img src="assets/fork/cache-import-prompt.png" width=210>
+</p>
 
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/00-v2.png" width=640>](fastlane/metadata/android/en-US/images/phoneScreenshots/00-v1.png)
+*Branch: `feature/cache-for-offline-viewing` · [issue #2782 upstream](https://github.com/InfinityLoop1308/PipePipe/issues/2782)*
 
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/01-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/02-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/03-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/04-v3.png)
-<br/>
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/05-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/06-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/07-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/08-v3.png)
-<br/>
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/09-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/10-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/11-v3.png)
-[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12-v3.png" width=160>](fastlane/metadata/android/en-US/images/phoneScreenshots/12-v3.png)
+### The feed stops showing stale data
 
+The feed used to read its videos once per refresh, so watch state changes never reached it:
+finishing a video left the red position bar where it was, and marking a video as watched while
+played items were hidden left it sitting in the list until something else forced a reload. The feed
+now subscribes to the database instead of reading it once, so those changes appear as they happen —
+watched videos disappear under the "hide watched" filter, position bars move, and deleting a history
+entry clears the bar. Rebuilds are throttled and identical results dropped, so watching a video
+doesn't rebuild the list every few seconds, and the scroll position is kept — except when you change
+the watched-items filter, where the list now takes you to the top of the new list instead of leaving
+the newest videos off screen above you.
 
-## About this fork
+<p><img src="assets/fork/feed-live-updates.png" width=210></p>
 
-Due to differences in development philosophy, I forked NewPipe in early 2022 and began independent development based on it.
+*Branch: `feature/feed-live-updates`*
 
-This means that PipePipe neither receives updates from NewPipe nor pushes updates to NewPipe. They have become two separate projects. Issues that occur in NewPipe don't necessarily happen in PipePipe, and changes made in NewPipe may not be adopted by PipePipe. In contrast, forks like Tubular track the latest version of NewPipe and develop based on it.
+### Buttons on list items
 
-Making a hard fork allows us to effectively address issues with quick fixes and maintain frequent feature updates.
+The long-press menu on a video holds a dozen entries, and most people use two or three of them
+constantly. *Settings → Appearance → Buttons on list items* takes any combination of those entries
+and puts them as icon-only buttons at the end of every video row — in the feed, in search, on
+channels and playlists, in history and local playlists, across the list, grid and card layouts. A
+button runs exactly the entry it names, so there is one implementation of "share this" and the
+button is just a second way to reach it. Entries that only work inside a particular dialog (Delete,
+Set as playlist thumbnail) are not offered. Off by default.
 
-## About sign in
+<p>
+<img src="assets/fork/list-buttons-picker.png" width=210>
+<img src="assets/fork/list-buttons-feed.png" width=210>
+</p>
 
-PipePipe will ONLY use the login cookie for the specified scenarios you set. You can configure it in "Cookie Functions."
+*Branch: `feature/list-quick-actions`*
 
-For YouTube, the cookie will only be used when retrieving playback streams.
+### Feed refresh that doesn't blank the list
 
-## Contribute
+Refreshing the subscription feed used to replace the whole screen with a spinner, so a refresh that
+outlived the screen — coming back from a video, for instance — left you looking at a loading state
+instead of the feed you had. The list now stays where it is while a refresh runs and the progress
+goes into the "Feed last updated" line. The blocking spinner is still used for the one case that
+needs it: the very first load, when there is nothing to keep on screen.
 
-Issues and PRs are welcomed. Please note that I will **NOT** accept service requests. 
+<p><img src="assets/fork/feed-refresh-non-blocking.png" width=210></p>
 
-Anyone interested in creating their own service is encouraged to fork this repository.
+*Branch: `feature/feed-refresh-non-blocking`*
 
-## Donation
+### Keep the app in portrait
 
-If you find PipePipe useful, please consider becoming a supporter on Ko-Fi. Your support is important to me and helps me add more exciting new features. Every bit counts! 😇
+Rotating the phone to watch something fullscreen used to leave the whole app in landscape
+afterwards: lists, the video page and the settings screens all stayed sideways, and on a device
+that reports as a tablet the code paths that give the orientation back were skipped entirely. The
+fork releases the orientation the app pinned whenever it leaves fullscreen, and adds *Settings →
+Advanced → Keep the app in portrait* for people who want everything except fullscreen playback to
+stay upright regardless of how the device is held.
 
-Liberapay: https://liberapay.com/PipePipe
+*Branch: `feature/rotation-restore-portrait`*
 
-Ko-fi: https://ko-fi.com/pipepipe
+### Back from fullscreen closes the video
 
-## Community
+With *Settings → Advanced → Back from fullscreen closes the video* on, pressing back during
+fullscreen playback returns to the list you came from and stops the video, instead of dropping it
+into the mini player to keep playing. Off by default.
 
-[PipePipe Wiki](https://priveetee.github.io/Docs-PipePipe) maintained by [@Priveetee](https://github.com/Priveetee)
+<p><img src="assets/fork/advanced-settings-options.png" width=210></p>
 
-## Special Thanks
+*Branches: `feature/back-from-fullscreen-closes-player`, `feature/rotation-restore-portrait`*
 
-[Priveetee](https://github.com/Priveetee) for [researching SABR](https://priveetee.github.io/Docs-PipePipe/developer-guide/introduction.html) and implementing support for it.
+### Seek bar clear of the system gesture strip
 
-[AioiLight](https://github.com/AioiLight) for providing some code of NicoNico service.
+On a phone with gesture navigation, the player's seek bar sits exactly where the system's back and
+home swipes live, so scrubbing near the bottom of the screen fights the navigation gestures. The
+bottom controls are now padded up by the system gesture inset, with a floor of 24 dp and a ceiling
+of 48 dp, and the padding is re-applied on layout changes because the insets are unknown on the
+first pass and change with fullscreen and orientation.
+
+*Branch: `feature/seekbar-gesture-clearance`*
+
+## Translations
+
+Strings these features add are translated into the 72 locales upstream actually maintains. The
+translations are machine-produced and unreviewed, so corrections are welcome; locales that upstream
+ships nearly empty were deliberately left to fall back to English rather than be filled with
+unreviewed text.
+
+## How the branches are laid out
+
+Each feature is its own branch off upstream's `dev`, and `dev` in this fork is the integration
+branch that merges all of them — it is what gets built and installed. Feature branches are rebased
+onto upstream `dev` rather than having it merged into them, so each one stays a readable set of
+changes against upstream.
+
+## Builds
+
+Debug APKs are published under
+[Releases](https://github.com/ArnoldSmith86/PipePipeClient/releases) in the client repository. They
+are signed with a local debug key, so they cannot be installed over an official PipePipe build —
+the two can live side by side, since the debug build uses its own application id.
+
+To build it yourself, clone `PipePipeClient` next to `PipePipeExtractor` and run
+`./gradlew :app:assembleDebug`.
+
+## Upstream
+
+Everything this fork does not touch is upstream's work. PipePipe is on
+[F-Droid](https://f-droid.org/packages/InfinityLoop1309.NewPipeEnhanced/) and
+[IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/InfinityLoop1309.NewPipeEnhanced), and if you
+find it useful, the donation links belong to its author:
+[Liberapay](https://liberapay.com/PipePipe) · [Ko-fi](https://ko-fi.com/pipepipe).
+
+Upstream's own notes worth repeating: PipePipe uses a login cookie only for the scenarios you set
+under "Cookie Functions" — for YouTube, only when retrieving playback streams. The
+[PipePipe Wiki](https://priveetee.github.io/Docs-PipePipe) is maintained by
+[@Priveetee](https://github.com/Priveetee), who also researched SABR support, and
+[@AioiLight](https://github.com/AioiLight) provided parts of the NicoNico service.
+
+## Issues
+
+Issues about the features above belong here. Anything else — playback, extraction, services —
+belongs [upstream](https://github.com/InfinityLoop1308/PipePipe/issues), and please reproduce it on
+an official build first.
