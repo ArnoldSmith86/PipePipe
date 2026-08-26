@@ -141,8 +141,9 @@ changes against upstream.
 
 ## Builds
 
-Debug APKs are published under
-[Releases](https://github.com/ArnoldSmith86/PipePipeClient/releases) in the client repository. They
+Debug APKs are published under [Releases](https://github.com/ArnoldSmith86/PipePipe/releases) on
+this repository, the way upstream does it — the code lives in the client repository, the builds
+live here. They
 are signed with a local debug key, so they cannot be installed over an official PipePipe build —
 the two can live side by side, since the debug build uses its own application id.
 
